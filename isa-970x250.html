@@ -1,0 +1,518 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="ad.size" content="width=970,height=250">
+    <title>TYE display ads ISA 970x250</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+    
+    <script src="https://s0.2mdn.net/ads/studio/Enabler.js"></script>
+
+    <style>
+        :root {
+            --c-primary: #001D4B;
+            --c-bg: #00DEB1;
+            --fs-medium: 20px;
+            --fs-small: 13px;
+            --fs-cta: 14px;
+            --fw-regular: 400;
+            --fw-medium: 500;
+            --fw-semibold: 600;
+            --fw-bold: 700;
+            --lh-medium: 24px;
+            --lh-small: 16px;
+            --lh-cta: 17px;
+        }
+
+        body {
+            background-color: #303030;
+        }
+
+        body, body * {
+            vertical-align: baseline;
+            border: 0;
+            outline: 0;
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        #ad-container {
+            font-family: 'Playfair Display', serif;
+            width: 300px;
+            height: 250px;
+            position: relative;
+            background-color: var(--c-bg);
+            border: 1px solid var(--c-bg);
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        #content {
+            color: var(--c-primary);
+            width: 100%;
+            height: 100%;
+            display: flex;
+            gap: 0;
+        }
+
+        .frame-wrapper {
+            font-weight: var(--fw-bold);
+            font-size: var(--fs-medium);
+            line-height: var(--lh-medium);
+            height: 100%;
+            flex: 1 1 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .frame-wrapper > * {
+            flex: 1 1 100%;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        #frame-1-copy  {
+            background-color: var(--c-primary);
+            color: var(--c-bg);
+        }
+
+        #frame-2-copy {
+            justify-content: end;
+        }
+
+        .countdown-wrapper {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 100;
+        }
+        
+        .countdown {
+            display: flex;
+            flex-direction: row;
+            gap: 8px;
+            align-items: center;
+            justify-content: center;
+            transform: scale(0.85);
+        }
+
+        .countdown-chip {
+            background: #f5f5f5;
+            color: var(--c-primary);
+            height: 54px;
+            border-radius: 12px;
+            line-height: 1em;
+            font-weight: var(--fw-semibold);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 1 auto;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .countdown-day-chip {
+            width: 60px;
+            font-size: 40px;
+        }
+
+        .countdown-month-chip {
+            width: 130px;
+            font-size: 35px;
+        }
+
+        .countdown-value {
+            display: inline-block;
+            margin-top: -6px;
+        }
+
+        .countdown-value.animate {
+            animation: countdownTick .5s ease-out;
+        }
+
+        .countdown-value.animate--last {
+            animation: countdownTickLast .5s ease-out;
+        }
+
+        .countdown.hidden {
+            opacity: 0;
+        }
+
+        .cta-wrapper {
+            font-family: 'Inter', Helvetica, Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            gap: var(--fs-medium);
+            display: none;
+        }
+
+        .footer {
+            font-size: var(--fs-small);
+            font-weight: var(--fw-regular);
+            line-height: var(--lh-small);
+        }
+
+        button {
+            background-color: var(--c-primary);
+            color: #ffffff;
+            font-size: var(--fs-cta);
+            font-weight: var(--fw-regular);
+            padding: calc(var(--fs-cta) / 2) var(--fs-cta);
+            border-radius: calc(var(--fs-cta) / 2);
+        }
+
+        .logo {
+            width: 106px;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        strong {
+            font-size: 1.5em;
+        }
+
+
+        /* size specific styles */
+        #ad-container.size-300x600 {
+            width: 300px;
+            height: 600px;
+        }
+
+        #ad-container.size-300x600 #frame-1-copy {
+            gap: calc(var(--fs-small) * 2);
+        }
+
+        #ad-container.size-300x600 #frame-1-copy span {
+            width: 40%;
+        }
+
+        #ad-container:is(.size-300x250,.size-300x600) #frame-3-copy {
+            justify-content: end;
+        }
+
+        #ad-container.size-300x600 .cta-wrapper {
+            flex-grow: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            display: none;
+        }
+        
+        #ad-container.size-300x600 button {
+            padding: calc(var(--fs-medium) / 2) var(--fs-medium);
+        }
+
+        #ad-container.size-728x90 {
+            width: 728px;
+            height: 90px;
+        }
+
+        #ad-container:is(.size-728x90,.size-970x250) .frame-wrapper {
+            flex-direction: row;
+        }
+
+        #ad-container:is(.size-728x90,.size-970x250) .copy-wrapper {
+            flex-basis: 67%;
+            align-items: start;
+            padding: 0 calc(var(--fs-medium) * 3) 0 calc(var(--fs-medium) * 1.5);
+        }
+
+        #ad-container:is(.size-728x90,.size-970x250) :is(.logo-wrapper,.cta-wrapper) {
+            flex-basis: 33%;
+        }
+
+        #ad-container:is(.size-728x90,.size-970x250) .copy-wrapper:not(#frame-1-copy) {
+            flex: 2 1 50%;
+            flex-direction: row;
+            gap: calc(var(--fs-medium) * 0.3);
+            align-items: center;
+            justify-content: start;
+            flex-wrap: wrap;
+            text-align: left;
+        }
+
+        #ad-container:is(.size-728x90,.size-970x250) br {
+            display: none;
+        }
+
+        #ad-container:is(.size-728x90,.size-970x250) .footer {
+            font-size: 11px;
+            white-space: nowrap;
+            position: absolute;
+            bottom: 0;
+            right: var(--fs-small);
+        }
+
+        #ad-container:is(.size-728x90,.size-970x250) .footer br {
+            display: none;
+        }
+
+        #ad-container.size-970x250 {
+            width: 970px;
+            height: 250px;
+        }
+
+        #ad-container:is(.size-970x250) .frame-wrapper {
+            font-size: 32px;
+            line-height: 38px;
+        }
+
+        #ad-container:is(.size-970x250) .copy-wrapper {
+            padding: 0 0 0 calc(var(--fs-medium) * 1.5);
+        }
+
+        #ad-container:is(.size-970x250) .footer {
+            font-size: var(--fs-small);
+        }
+
+        #ad-container:is(.size-970x250) button {
+            font-size: var(--fs-medium);
+            padding: calc(var(--fs-medium) / 2) var(--fs-medium);
+        }
+
+        #ad-container:is(.size-970x250) .logo {
+            width: 140px;
+        }
+
+
+        /* animation transitions */
+        #ad-container .animated {
+            transition: all .5s ease-out;
+        }
+
+        #ad-container:is(.size-300x250,.size-300x600) #frame-1-copy {
+            flex: 2 0 100%;
+        }
+
+        #ad-container:is(.size-300x250,.size-300x600) #frame-1-copy.animated {
+            flex: 1 1 100%;
+        }
+
+        #ad-container:is(.size-300x250,.size-300x600) .cta-wrapper.show {
+            display: flex;
+        }
+
+        #ad-container:is(.size-300x250,.size-300x600) .exit {
+            transform: translateY(-100%);
+            opacity: 0;
+        }
+
+        #ad-container:is(.size-300x250,.size-300x600) .exit-down {
+            transform: translateY(100%);
+            opacity: 0;
+        }
+
+        #ad-container:is(.size-300x250,.size-300x600) [data-animation="slide-up"] {
+            opacity: 0;
+            position: relative;
+            top: 2em;
+            transition: all .3s ease-out;
+        }
+
+        #ad-container:is(.size-300x250,.size-300x600) [data-animation="slide-up"].animated {
+            opacity: 1;
+            top: 0;
+        }
+
+        #ad-container:is(.size-300x250,.size-300x600) [data-animation="fade-in"] {
+            opacity: 0;
+            transition: all .3s ease-out;
+        }
+
+        #ad-container:is(.size-300x250,.size-300x600) [data-animation="fade-in"].animated {
+            opacity: 1;
+        }
+
+        #ad-container [data-animation="zoom-in"] {
+            transform: scale(0);
+            transition: all .3s ease-out;
+        }
+
+        #ad-container [data-animation="zoom-in"].animated {
+            transform: scale(1);
+        }
+        
+        #ad-container:not(.size-970x250) .countdown[data-animation="zoom-in"].animated {
+            transform: scale(.71);
+        }
+
+        #ad-container:is(.size-728x90,.size-970x250) #frame-1-copy {
+            flex: 2 0 100%;
+        }
+
+        #ad-container:is(.size-728x90,.size-970x250) #frame-1-copy.animated {
+            flex: 1 1 67%;
+        }
+
+        #ad-container:is(.size-728x90,.size-970x250) .cta-wrapper.show {
+            display: flex;
+        }
+
+        #ad-container:is(.size-728x90,.size-970x250) .exit {
+            transform: translateX(-100%);
+            opacity: 0;
+        }
+
+        #ad-container:is(.size-728x90,.size-970x250) .exit-up {
+            transform: translateY(-50%);
+            opacity: 0;
+        }
+
+        #ad-container:is(.size-728x90,.size-970x250) .exit-right {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+
+        #ad-container:is(.size-728x90,.size-970x250) [data-animation="slide-up"] {
+            opacity: 0;
+            position: relative;
+            top: 2em;
+            transition: all .3s ease-out;
+        }
+
+        #ad-container:is(.size-728x90,.size-970x250) [data-animation="slide-up"].animated {
+            opacity: 1;
+            top: 0;
+        }
+
+        #ad-container:is(.size-728x90,.size-970x250) [data-animation="fade-in"] {
+            opacity: 0;
+            transition: opacity .3s ease-out;
+        }
+
+        #ad-container:is(.size-728x90,.size-970x250) [data-animation="fade-in"].animated {
+            opacity: 1;
+        }
+        
+
+        @keyframes countdownTick {
+            0% {
+                opacity: 0;
+                transform: translateY(1em);
+            }
+            20% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            40% {
+                opacity: 1;
+                transform: translateY(-0.05em);
+                animation-timing-function: ease-in;
+            }
+            90% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-1em);
+            }
+        }
+
+        @keyframes countdownTickLast {
+            0% {
+                opacity: 0;
+                transform: translateY(1em);
+            }
+            20%,100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="ad-container" class="size-970x250">
+        <div id="content">
+            <div class="frame-wrapper">
+                <div id="frame-1-copy" class="copy-wrapper">
+                    <span data-animation="slide-up">Tick, tock.</span>
+                    <span data-animation="slide-up">Tax year ends soon.</span>
+                </div>
+
+                <div id="frame-2-copy" class="copy-wrapper hide">
+                    <div><span data-animation="slide-up">Open a Stocks and</span>
+<br> <span data-animation="slide-up">Shares ISA before</span>
+<br> <span data-animation="slide-up">the deadline.</span></div>
+                </div>
+
+                <div id="frame-3-copy" class="copy-wrapper hide">
+                    <div><span data-animation="slide-up">The UK's #<strong>1</strong> investment</span>
+<br> <span data-animation="slide-up">and savings platform.</span></div>
+                </div>
+
+                <div class="logo-wrapper">
+                    <img src="./logo.svg" class="logo" alt="HARGREAVES LANDSDOWN">
+                </div>
+
+                <div class="cta-wrapper" data-animation="slide-up">
+                    <div><button>Open an account</button></div>
+                    <span class="footer">Investments returns vary. To verify<br> claim see www.hl.co.uk/platform</span>
+                </div>
+
+                <div class="countdown-wrapper">
+                    <div id="countdown" class="countdown hidden" aria-live="polite" data-animation="zoom-in">
+                        <span class="countdown-chip countdown-day-chip">
+                            <span id="campaign-date-day" class="countdown-value"></span>
+                        </span>
+                        <span class="countdown-chip countdown-month-chip">
+                            <span id="campaign-date-month" class="countdown-value"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script src="./main.js"></script>
+<script>
+var clickTag = "https://www.google.com";
+var adClickBound = false;
+
+window.onload = function() {
+    if (window.Enabler && Enabler.isInitialized()) {
+        enablerInitHandler();
+    } else if (window.Enabler) {
+        Enabler.addEventListener(studio.events.StudioEvent.INIT, enablerInitHandler);
+    } else {
+        adVisibilityHandler();
+    }
+};
+
+function enablerInitHandler() {
+    if (Enabler.isVisible()) {
+        adVisibilityHandler();
+    } else {
+        Enabler.addEventListener(studio.events.StudioEvent.VISIBLE, adVisibilityHandler);
+    }
+}
+
+function adVisibilityHandler() {
+    if (adClickBound) {
+        return;
+    }
+    adClickBound = true;
+
+    document.getElementById("ad-container").addEventListener("click", function() {
+        if (window.Enabler) {
+            Enabler.exit("Background Exit", clickTag);
+        } else {
+            window.open(clickTag, "_blank");
+        }
+    }, false);
+}
+
+AnimationController();
+</script>
+
+</body></html>
