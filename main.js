@@ -235,11 +235,12 @@ function AnimationController() {
     const frame3Copy = document.querySelector('#frame-3-copy');
     const logo = document.querySelector('.logo-wrapper');
     const cta = document.querySelector('.cta-wrapper');
-    const countdown = document.querySelector('#countdown');
+    //const countdown = document.querySelector('#countdown');
     const landscapeSizes = ['728x90','970x250'];
-    const size = document.querySelector('#ad-container').className.replace('size-','');
+    const size = document.querySelector('#ad-container').className.split(' ').at(-1).replace('size-','');
     let timeout;
     let timeoutIncrement;
+    let countdown;
 
     const now = new Date();
     const monthNow = now.getMonth()+1;
@@ -259,6 +260,7 @@ function AnimationController() {
         animationStepMs = 400;
     }
     timeoutIncrement = daysLeft * animationStepMs;
+    timeoutIncrement = 2000;
     //console.log('daysLeft:',daysLeft,' animationStepMs:',animationStepMs,' timeoutIncrement:',timeoutIncrement);
 
     timeout = [
@@ -278,6 +280,7 @@ function AnimationController() {
     // frame 1
     setTimeout(function(){
         setTimeout(function(){
+            /*
             initUkCampaignCountdown({
                 rootSelector: "#countdown",
                 daySelector: "#campaign-date-day",
@@ -289,6 +292,17 @@ function AnimationController() {
                 updateIntervalMs: 60000
             });
             countdown.classList.add('animated');
+            */
+           countdown = new Countdown({
+                timezone: 'Europe/London',
+                daysOffset: 3,
+                end: '2026-04-05', // YYYY-MM-DD
+                elems: {
+                    wrapper: '#countdown',
+                    tens: '#countdown .digit-tens .digits-stack',
+                    ones: '#countdown .digit-ones .digits-stack',
+                }
+            });
         }, 600);
 
         frame1Copy.classList.add('animated');
@@ -302,7 +316,8 @@ function AnimationController() {
             logo.classList.add('animated','exit-right');
         }
 
-        countdown.classList.remove('animated');
+        //countdown.classList.remove('animated');
+        document.querySelector('#countdown').classList.remove('animate');
     }, timeout[2]);
 
     // frame 3

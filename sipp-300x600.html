@@ -47,7 +47,6 @@
             height: 250px;
             position: relative;
             background-color: var(--c-bg);
-            border: 1px solid var(--c-bg);
             overflow: hidden;
             cursor: pointer;
         }
@@ -94,56 +93,66 @@
             height: 100%;
             z-index: 100;
         }
-        
-        .countdown {
-            display: flex;
-            flex-direction: row;
-            gap: 8px;
-            align-items: center;
-            justify-content: center;
-            transform: scale(0.85);
+
+        #countdown {
+            opacity: 0;
+        }
+        #countdown.animate {
+            animation: countdown .3s ease-in forwards;
         }
 
-        .countdown-chip {
-            background: #f5f5f5;
-            color: var(--c-primary);
-            height: 54px;
-            border-radius: 12px;
-            line-height: 1em;
-            font-weight: var(--fw-semibold);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            flex: 0 1 auto;
-            white-space: nowrap;
+        #countdown .digits {
+            display: flex;
+            height: 40px;
+            gap: 4px;
             overflow: hidden;
         }
 
-        .countdown-day-chip {
-            width: 60px;
+        #countdown .digit-wrapper {
+            background: #f5f5f5;
+            flex: 1 1 50%;
+            border-radius: 8px;
+        }
+
+        #countdown .digit {
             font-size: 40px;
+            display: flex;
+            justify-content: center;
+            color: var(--c-primary);
         }
 
-        .countdown-month-chip {
-            width: 130px;
-            font-size: 35px;
+        #countdown .digits-stack {
+            position: absolute;
         }
 
-        .countdown-value {
-            display: inline-block;
-            margin-top: -6px;
+        #countdown .digit-tens {
+            transform: translateY(-0.5em);
+        }
+        #countdown.animate .digit-tens {
+            animation: digits .5s ease-out .3s forwards;
         }
 
-        .countdown-value.animate {
-            animation: countdownTick .5s ease-out;
+        #countdown .digit-ones {
+            transform: translateY(-3em);
+        }
+        #countdown.animate .digit-ones {
+            animation: digits 1s linear .4s forwards;
         }
 
-        .countdown-value.animate--last {
-            animation: countdownTickLast .5s ease-out;
+        #countdown .digit span {
+            line-height: 1em;
+            margin-top: -0.15em;
+            display: flex;
+            justify-content: center;
+            flex-direction: row;
         }
 
-        .countdown.hidden {
-            opacity: 0;
+        #countdown .countdown-footer {
+            font-size: 12px;
+            font-family: 'Inter', Helvetica, Arial, sans-serif;
+            text-transform: uppercase;
+            line-height: 1em;
+            margin-top: 0.3em;
         }
 
         .cta-wrapper {
@@ -155,9 +164,11 @@
         }
 
         .footer {
-            font-size: var(--fs-small);
+            font-size: 11px;
             font-weight: var(--fw-regular);
-            line-height: var(--lh-small);
+            line-height: 14px;
+            position: relative;
+            top: -4px;
         }
 
         button {
@@ -188,16 +199,29 @@
             height: 600px;
         }
 
+        #ad-container.size-300x600 .copy-wrapper span {
+            font-size: 32px;
+            line-height: 1.2em;
+        }
+
+        #ad-container.size-300x600 #frame-3-copy > div {
+            width: 90%;
+        }
+
         #ad-container.size-300x600 #frame-1-copy {
             gap: calc(var(--fs-small) * 2);
         }
 
         #ad-container.size-300x600 #frame-1-copy span {
-            width: 40%;
+            width: 70%;
         }
 
         #ad-container:is(.size-300x250,.size-300x600) #frame-3-copy {
             justify-content: end;
+        }        
+
+        #ad-container.size-300x600:has(#frame-3-copy:not(.animated,.hide)) .logo-wrapper {
+            flex: 1 1 70%;
         }
 
         #ad-container.size-300x600 .cta-wrapper {
@@ -211,6 +235,10 @@
         
         #ad-container.size-300x600 button {
             padding: calc(var(--fs-medium) / 2) var(--fs-medium);
+        }
+
+        #ad-container.size-300x600 #countdown.animate {
+            animation: countdown-large .3s ease-in forwards;
         }
 
         #ad-container.size-728x90 {
@@ -250,12 +278,21 @@
             font-size: 11px;
             white-space: nowrap;
             position: absolute;
-            bottom: 0;
+            bottom: 4px;
             right: var(--fs-small);
+            top: unset;
+        }
+
+        #ad-container.size-970x250 .footer {
+            bottom: 8px;
         }
 
         #ad-container:is(.size-728x90,.size-970x250) .footer br {
             display: none;
+        }
+
+        #ad-container.size-728x90 .countdown-footer {
+            color: var(--c-bg);
         }
 
         #ad-container.size-970x250 {
@@ -285,10 +322,18 @@
             width: 140px;
         }
 
+        #ad-container.size-970x250 .countdown-footer {
+            color: var(--c-bg);
+        }
+
+        #ad-container.size-970x250 #countdown.animate {
+            animation: countdown-xlarge .3s ease-in forwards;
+        }
+
 
         /* animation transitions */
         #ad-container .animated {
-            transition: all .5s ease-out;
+            transition: all .5s cubic-bezier(0.5, 0, 1, 1);
         }
 
         #ad-container:is(.size-300x250,.size-300x600) #frame-1-copy {
@@ -317,7 +362,7 @@
             opacity: 0;
             position: relative;
             top: 2em;
-            transition: all .3s ease-out;
+            transition: all .3s cubic-bezier(0.5, 0, 1, 1);
         }
 
         #ad-container:is(.size-300x250,.size-300x600) [data-animation="slide-up"].animated {
@@ -327,7 +372,7 @@
 
         #ad-container:is(.size-300x250,.size-300x600) [data-animation="fade-in"] {
             opacity: 0;
-            transition: all .3s ease-out;
+            transition: all .3s cubic-bezier(0.5, 0, 1, 1);
         }
 
         #ad-container:is(.size-300x250,.size-300x600) [data-animation="fade-in"].animated {
@@ -336,7 +381,7 @@
 
         #ad-container [data-animation="zoom-in"] {
             transform: scale(0);
-            transition: all .3s ease-out;
+            transition: all .3s cubic-bezier(0.5, 0, 1, 1);
         }
 
         #ad-container [data-animation="zoom-in"].animated {
@@ -378,7 +423,7 @@
             opacity: 0;
             position: relative;
             top: 2em;
-            transition: all .3s ease-out;
+            transition: all .3s cubic-bezier(0.5, 0, 1, 1);
         }
 
         #ad-container:is(.size-728x90,.size-970x250) [data-animation="slide-up"].animated {
@@ -388,13 +433,89 @@
 
         #ad-container:is(.size-728x90,.size-970x250) [data-animation="fade-in"] {
             opacity: 0;
-            transition: opacity .3s ease-out;
+            transition: opacity .3s cubic-bezier(0.5, 0, 1, 1);
         }
 
         #ad-container:is(.size-728x90,.size-970x250) [data-animation="fade-in"].animated {
             opacity: 1;
         }
+
+
+        /* ad-specific overrides */
+        #ad-container.ad-isa.size-728x90 .copy-wrapper {
+            padding: 0 calc(var(--fs-medium) * 2) 0 calc(var(--fs-medium) * 1.5);
+        }
+
+        #ad-container.ad-isa.size-970x250 .copy-wrapper {
+            padding: 0 0 0 calc(var(--fs-medium) * 1.5);
+        }
+
+        #ad-container.ad-sipp:is(.size-300x250,.size-300x600):has(#frame-3-copy:not(.animated,.hide)) .logo-wrapper {
+            flex: 1 1 70%;
+        }
+
+        #ad-container.ad-sipp.size-300x600 #frame-2-copy > div {
+            width: 90%;
+        }
+
+        #ad-container.ad-sipp.size-728x90 .copy-wrapper {
+            padding: 0 0 0 calc(var(--fs-medium) * 1.5);
+        }
+
+        #ad-container.ad-sipp.size-728x90 .copy-wrapper:not(#frame-1-copy) {
+            font-size: 16px;
+            line-height: 1.2em;
+        }
+
+        #ad-container.ad-sipp.size-728x90 .footer {
+            font-size: 9px;
+        }
+
         
+        @keyframes digits {
+            50% {
+                animation-timing-function: ease-out;
+            }
+            70% {
+                transform: translateY(0.3em);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes countdown {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes countdown-large {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1.3);
+            }
+        }
+
+        @keyframes countdown-xlarge {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1.5);
+            }
+        }
 
         @keyframes countdownTick {
             0% {
@@ -432,12 +553,30 @@
     </style>
 </head>
 <body>
-    <div id="ad-container" class="size-300x600">
+    <div id="ad-container" class="ad-sipp size-300x600">
         <div id="content">
             <div class="frame-wrapper">
+                <div class="countdown-wrapper">
+                    <div id="countdown">
+                        <div class="digits">
+                            <div class="digit-wrapper">
+                                <div class="digit digit-tens">
+                                    <div class="digits-stack"></div>
+                                </div>
+                            </div>
+                            <div class="digit-wrapper">
+                                <div class="digit digit-ones">
+                                    <div class="digits-stack"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="countdown-footer">days to go</div>
+                    </div>
+                </div>
+
                 <div id="frame-1-copy" class="copy-wrapper">
                     <span data-animation="slide-up">Tick, tock.</span>
-                    <span data-animation="slide-up">Tax year ends soon.</span>
+                    <span data-animation="slide-up">Tax year ends <span style="font-variant-numeric:lining-nums">5</span> April.</span>
                 </div>
 
                 <div id="frame-2-copy" class="copy-wrapper hide">
@@ -459,10 +598,10 @@
                 <div class="cta-wrapper" data-animation="slide-up">
                     <div><button>Open an account</button></div>
                     <span class="footer">Access a pension from 55 (57 in 2028).
-<bt> Investments returns vary. To verify claim
-<br> see www.hl.co.uk/platform</bt></span>
+<br> Investments returns vary. To verify claim
+<br> see www.hl.co.uk/platform</span>
                 </div>
-
+                <!--
                 <div class="countdown-wrapper">
                     <div id="countdown" class="countdown hidden" aria-live="polite" data-animation="zoom-in">
                         <span class="countdown-chip countdown-day-chip">
@@ -473,10 +612,12 @@
                         </span>
                     </div>
                 </div>
+                -->
             </div>
         </div>
     </div>
 
+<script src="./countdown.js"></script>
 <script src="./main.js"></script>
 <script>
 var clickTag = "https://www.google.com";
