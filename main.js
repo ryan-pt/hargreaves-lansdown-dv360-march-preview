@@ -108,7 +108,7 @@ function AnimationController() {
     ]
     timeout.push(timeout[1]+5000); // 2
     timeout.push(timeout[2]+500); // 3
-    timeout.push(timeout[3]+2500); // 4
+    timeout.push(timeout[3]+3500); // 4
     timeout.push(timeout[4]+500); // 5
 
     // frame 0

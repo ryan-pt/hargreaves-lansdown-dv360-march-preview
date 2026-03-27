@@ -185,6 +185,10 @@
             border-radius: calc(var(--fs-cta) / 2);
         }
 
+        .text-nowrap {
+            white-space: nowrap;
+        }
+
         .font-inter {
             font-family: 'Inter', Helvetica, Arial, sans-serif;
             font-weight: 400;
@@ -208,6 +212,21 @@
 
 
         /* size specific styles */
+        #ad-container.size-160x600 {
+            width: 160px;
+            height: 600px;
+        }
+
+        #ad-container.size-160x600 .copy-wrapper span {
+            font-size: 24px;
+            line-height: 1.2em;
+        }
+
+        #ad-container.size-160x600 #frame-1-copy span {
+            width: 90%;
+        }
+
+
         #ad-container.size-300x600 {
             width: 300px;
             height: 600px;
@@ -222,7 +241,7 @@
             width: 90%;
         }
 
-        #ad-container.size-300x600 #frame-1-copy {
+        #ad-container:is(.size-300x600,.size-160x600) #frame-1-copy {
             gap: calc(var(--fs-small) * 2);
         }
 
@@ -230,15 +249,15 @@
             width: 70%;
         }
 
-        #ad-container:is(.size-300x250,.size-300x600) #frame-3-copy {
+        #ad-container:is(.size-300x250,.size-300x600,.size-160x600) #frame-3-copy {
             justify-content: end;
         }        
 
-        #ad-container.size-300x600:has(#frame-3-copy:not(.animated,.hide)) .logo-wrapper {
+        #ad-container:is(.size-300x600,.size-160x600):has(#frame-3-copy:not(.animated,.hide)) .logo-wrapper {
             flex: 1 1 70%;
         }
 
-        #ad-container.size-300x600 .cta-wrapper {
+        #ad-container:is(.size-300x600,.size-160x600) .cta-wrapper {
             flex-grow: 2;
             display: flex;
             flex-direction: column;
@@ -251,7 +270,7 @@
             padding: calc(var(--fs-medium) / 2) var(--fs-medium);
         }
 
-        #ad-container.size-300x600 #countdown.animate {
+        #ad-container:is(.size-160x600,.size-300x600) #countdown.animate {
             animation: countdown-large .3s ease-in forwards;
         }
 
@@ -350,46 +369,46 @@
             transition: all .5s var(--atf-bounce);
         }
 
-        #ad-container:is(.size-300x250,.size-300x600) #frame-1-copy {
+        #ad-container:is(.size-300x250,.size-300x600,.size-160x600) #frame-1-copy {
             flex: 2 0 100%;
         }
 
-        #ad-container:is(.size-300x250,.size-300x600) #frame-1-copy.animated {
+        #ad-container:is(.size-300x250,.size-300x600,.size-160x600) #frame-1-copy.animated {
             flex: 1 1 100%;
         }
 
-        #ad-container:is(.size-300x250,.size-300x600) .cta-wrapper.show {
+        #ad-container:is(.size-300x250,.size-300x600,.size-160x600) .cta-wrapper.show {
             display: flex;
         }
 
-        #ad-container:is(.size-300x250,.size-300x600) .exit {
+        #ad-container:is(.size-300x250,.size-300x600,.size-160x600) .exit {
             transform: translateY(-100%);
             opacity: 0;
         }
 
-        #ad-container:is(.size-300x250,.size-300x600) .exit-down {
+        #ad-container:is(.size-300x250,.size-300x600,.size-160x600) .exit-down {
             transform: translateY(100%);
             opacity: 0;
         }
 
-        #ad-container:is(.size-300x250,.size-300x600) [data-animation="slide-up"] {
+        #ad-container:is(.size-300x250,.size-300x600,.size-160x600) [data-animation="slide-up"] {
             opacity: 0;
             position: relative;
             top: 2em;
             transition: all 1s var(--atf-bounce);
         }
 
-        #ad-container:is(.size-300x250,.size-300x600) [data-animation="slide-up"].animated {
+        #ad-container:is(.size-300x250,.size-300x600,.size-160x600) [data-animation="slide-up"].animated {
             opacity: 1;
             top: 0;
         }
 
-        #ad-container:is(.size-300x250,.size-300x600) [data-animation="fade-in"] {
+        #ad-container:is(.size-300x250,.size-300x600,.size-160x600) [data-animation="fade-in"] {
             opacity: 0;
             transition: all .3s var(--atf-bounce);
         }
 
-        #ad-container:is(.size-300x250,.size-300x600) [data-animation="fade-in"].animated {
+        #ad-container:is(.size-300x250,.size-300x600,.size-160x600) [data-animation="fade-in"].animated {
             opacity: 1;
         }
 
@@ -456,6 +475,18 @@
 
 
         /* ad-specific overrides */
+        #ad-container.ad-isa.size-160x600 .copy-wrapper:not(#frame-1-copy) > div {
+            width: 90%;
+        }
+
+        #ad-container:is(.ad-isa,.ad-sipp).size-160x600 .footer {
+            width: 90%;
+        }
+
+        #ad-container:is(.ad-isa,.ad-sipp).size-160x600 .footer br {
+            display: none;
+        }
+
         #ad-container.ad-isa.size-728x90 .copy-wrapper {
             padding: 0 calc(var(--fs-medium) * 2) 0 calc(var(--fs-medium) * 1.5);
         }
@@ -464,7 +495,7 @@
             padding: 0 0 0 calc(var(--fs-medium) * 1.5);
         }
 
-        #ad-container.ad-sipp:is(.size-300x250,.size-300x600):has(#frame-3-copy:not(.animated,.hide)) .logo-wrapper {
+        #ad-container.ad-sipp:is(.size-300x250,.size-300x600,.size-160x600):has(#frame-3-copy:not(.animated,.hide)) .logo-wrapper {
             flex: 1 1 70%;
         }
 
@@ -581,23 +612,10 @@
                     <div><button>Open an account</button></div>
                     <span class="footer">Investments returns vary. To verify<br> claim see www.hl.co.uk/platform</span>
                 </div>
-                <!--
-                <div class="countdown-wrapper">
-                    <div id="countdown" class="countdown hidden" aria-live="polite" data-animation="zoom-in">
-                        <span class="countdown-chip countdown-day-chip">
-                            <span id="campaign-date-day" class="countdown-value"></span>
-                        </span>
-                        <span class="countdown-chip countdown-month-chip">
-                            <span id="campaign-date-month" class="countdown-value"></span>
-                        </span>
-                    </div>
-                </div>
-                -->
             </div>
         </div>
     </div>
 
-<script src="./countdown.js"></script>
 <script src="./main.js"></script>
 <script>
 var clickTag = "https://www.google.com";
